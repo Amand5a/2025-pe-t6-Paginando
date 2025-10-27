@@ -15,7 +15,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1.25rem;
-  justify-items: start;
+  justify-items: center; /* centraliza os cards dentro das colunas */
+  width: 100%;
+  max-width: 1200px; /* limita a largura total do grid */
+  margin: 0 auto; /* centraliza o grid na página */
 }
 
 /* Toolbar minimalista para ações da lista */
