@@ -40,12 +40,6 @@ npm start
 ```
 Acesse o app em **[http://localhost:3000](http://localhost:3000)**.
 
-### **4. Gerar build de produção**
-```bash
-npm run build
-```
-Cria a pasta `build/` pronta para deploy.
-
 ---
 
 ## Rotas
