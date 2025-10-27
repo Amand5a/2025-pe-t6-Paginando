@@ -1,0 +1,79 @@
+import React, { useMemo } from "react";
+import { useUser } from "../../context/UserContext";
+import { books } from "../../data/books";
+import BookCarousel from "../../components/books/carousel/BookCarousel";
+import BookCards from "../../components/books/cards/BookCards";
+
+export default function Home() {
+  const { readingProgress } = useUser();
+
+  const inProgress = useMemo(() => {
+    // Prefer progress from context; fallback to localStorage keys set pelo leitor.
+    const idsFromContext = Object.entries(readingProgress || {})
+      .filter(([, v]) => v && typeof v === "object")
+      .filter(([, v]) => {
+        const p = Number(v.percent || 0);
+        return p > 0 && p < 100;
+      })
+      .map(([k]) => Number(k))
+      .filter((n) => !Number.isNaN(n));
+
+    const idsFromLocal = books
+      .map((b) => b.id)
+      .filter((id) => {
+        try {
+          return !!localStorage.getItem(`reader:${id}:location`);
+        } catch (_) {
+          return false;
+        }
+      });
+
+    const idSet = new Set([...idsFromContext, ...idsFromLocal]);
+    return books.filter((b) => idSet.has(b.id));
+  }, [readingProgress]);
+
+  const mostRead = useMemo(() => {
+    // Placeholder: ordena por rating como proxy de "mais lidos".
+    return [...books].sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 5);
+  }, []);
+
+  const recommended = useMemo(() => {
+    // Placeholder: estrutura pronta para recomendações futuras.
+    // Hoje: escolhe um subconjunto estável (por id) ignorando os já em andamento.
+    const inProgressSet = new Set(inProgress.map((b) => b.id));
+    return books.filter((b) => !inProgressSet.has(b.id)).slice(0, 10);
+  }, [inProgress]);
+
+  return (
+    <div className="home" style={{ display: "grid", gap: "2rem" }}>
+      <section>
+        <BookCarousel title="Leituras em andamento">
+          {inProgress.length > 0 ? (
+            inProgress.map((book) => (
+              <BookCards key={book.id} id={book.id} title={book.title} author={book.author} image={book.image} />
+            ))
+          ) : (
+            <div style={{ padding: "1rem", color: "#64748b" }}>Nenhuma leitura em andamento.</div>
+          )}
+        </BookCarousel>
+      </section>
+
+      <section>
+        <BookCarousel title="Recomendações para você">
+          {recommended.map((book) => (
+            <BookCards key={book.id} id={book.id} title={book.title} author={book.author} image={book.image} />
+          ))}
+        </BookCarousel>
+      </section>
+
+      <section>
+        <BookCarousel title="Top 5 mais lidos">
+          {mostRead.map((book) => (
+            <BookCards key={book.id} id={book.id} title={book.title} author={book.author} image={book.image} />
+          ))}
+        </BookCarousel>
+      </section>
+    </div>
+  );
+}
+

@@ -6,6 +6,7 @@ import Layout from "./core/layout/layout";
 import Favoritos from "./pages/favoritos/favoritos";
 import Acervo from "./pages/acervo/acervo";
 import TextBookReader from "./components/books/reader/BookReader";
+import Home from "./pages/home/home";
 
 
 function BookReaderPage() {
@@ -26,6 +27,7 @@ export default function App() {
     <UserProvider>
       <Layout>
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/acervo" element={<Acervo />} />
           <Route path="/favoritos" element={<Favoritos />} />
           <Route path="/livro/:id/page" element={<BookReaderPage />} />
