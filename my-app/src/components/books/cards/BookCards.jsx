@@ -104,7 +104,7 @@ export default function BookCards({ id, title, author, image }) {
 
   const handleStartReading = () => {
     updateReadingProgress(id, 1, 100);
-    navigate(`/livro/${id}/${id}`);
+    navigate(`/livro/${id}/page`);
   };
 
   return (

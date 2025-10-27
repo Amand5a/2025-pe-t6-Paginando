@@ -87,7 +87,7 @@
 }
 
 /* === Gêneros === */
-.catalog__genres {
+/* removed */ .catalog__genres {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -95,7 +95,7 @@
   margin-top: 1rem;
 }
 
-.catalog__chip {
+/* removed */ .catalog__chip {
   background: #fff;
   border: 1px solid #e4e7ec;
   border-radius: 2rem;
@@ -106,7 +106,7 @@
   transition: all 0.2s ease;
 }
 
-.catalog__chip:hover {
+/* removed */ .catalog__chip:hover {
   background: var(--accent-light);
   color: var(--accent-orange);
   border-color: var(--accent-orange);
@@ -136,4 +136,68 @@
     width: 100%;
     justify-content: center;
   }
+}
+/* === Popover de Filtros === */
+.catalog__filter-pop {
+  position: absolute;
+  right: 0;
+  margin-top: 8px;
+  background: #fff;
+  border: 1px solid #e4e7ec;
+  border-radius: 12px;
+  box-shadow: 0 16px 30px rgba(0,0,0,0.15);
+  padding: 14px;
+  width: 280px;
+  text-align: left;
+  z-index: 10;
+}
+
+.catalog__filter-title {
+  display: block;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.catalog__filter-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+  max-height: 220px;
+  overflow: auto;
+  padding-bottom: 6px;
+}
+
+.catalog__filter-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.92rem;
+  color: var(--text-primary);
+}
+
+.catalog__filter-actions {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.catalog__filter-clear {
+  background: #f8fafc;
+  color: #1a2b48;
+  border: 1px solid #e4e7ec;
+  border-radius: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.catalog__filter-apply {
+  background: var(--accent-orange);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
 }
