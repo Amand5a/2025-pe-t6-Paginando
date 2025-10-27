@@ -13,9 +13,9 @@
 /* GRID DE CARDS */
 .favoritos__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-  gap: 2rem;
-  justify-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.25rem;
+  justify-items: start;
 }
 
 /* Toolbar minimalista para ações da lista */
