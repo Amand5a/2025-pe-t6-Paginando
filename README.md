@@ -64,7 +64,7 @@ Acesse o app em **[http://localhost:3000](http://localhost:3000)**.
 | `reader:<id>:fontSize` | Tamanho da fonte (%) |
 | `reader:<id>:location` | Posição de leitura (EPUBCFI) |
 
-📁 Arquivos `.epub` devem ficar em:
+ Arquivos `.epub` devem ficar em:
 ```
 public/epub/<id>.epub
 ```
@@ -97,7 +97,7 @@ Expõe os seguintes estados e funções:
 
 ---
 
-## 🏗️ Estrutura de Pastas (resumo)
+##  Estrutura de Pastas (resumo)
 
 ```
 src/
