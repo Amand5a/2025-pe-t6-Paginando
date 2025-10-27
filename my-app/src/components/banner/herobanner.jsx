@@ -5,7 +5,7 @@ export default function HeroBanner() {
   return (
     <section className="hero">
       <div className="hero__content">
-        <h1 className="hero__title">Bem-vindo à Biblioteca Virtual</h1>
+        <h1 className="hero__title">Bem-vindo ao Paginando</h1>
         <p className="hero__subtitle">
           Explore uma vasta coleção de livros e recomendações personalizadas.
         </p>

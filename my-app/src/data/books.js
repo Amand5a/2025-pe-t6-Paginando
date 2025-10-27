@@ -1,3 +1,5 @@
+//titulos,autores,biografias,etc utilizado apenas para testes.
+
 const images = require.context('../assets/images', false, /\.png$/);
 
 function getImage(id) {

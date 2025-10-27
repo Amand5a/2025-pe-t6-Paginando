@@ -3,14 +3,6 @@ import { Search, SlidersHorizontal } from "lucide-react";
 import "./catalogSelector.css";
 import "../../index.css";
 
-/**
- * CatalogContainer
- * Props opcionais:
- * - onSearch(query: string)
- * - onGenresChange(genres: string[])
- * - genresSource?: string[] (sobrescreve a lista de gêneros)
- * - selectedGenres?: string[] (controle externo)
- */
 export default function CatalogContainer({ onSearch, onGenresChange, genresSource, selectedGenres = [] }) {
   const fallback = ["Fantasia","Ficção Científica","Romance","Mistério","Terror","Clássico","Drama","Aventura"];
   const genres = useMemo(() => (genresSource && genresSource.length ? genresSource : fallback), [genresSource]);

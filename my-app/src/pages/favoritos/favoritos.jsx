@@ -69,7 +69,7 @@ export default function Favoritos() {
         </p>
       </header>
 
-      {/* ✅ Menu dinâmico */}
+      {/*  Menu  */}
       <ListMenu
         activeTab={activeTab}
         onTabChange={setActiveTab}
@@ -90,7 +90,7 @@ export default function Favoritos() {
         </div>
       )}
 
-      {/* ✅ Grid de cards */}
+      {/* Grid de cards */}
       <div className="favoritos__grid">
         {filteredBooks.length > 0 ? (
           filteredBooks.map((book) => (
