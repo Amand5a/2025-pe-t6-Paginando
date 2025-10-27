@@ -23,17 +23,21 @@ A proposta é oferecer uma experiência fluida e envolvente de leitura online, i
 
 ## Instalação e Execução
 
-### **1. Entrar na pasta do projeto**
+### **1. Clonar o repositório**
+```bash
+git clone https://github.com/Amand5a/2025-pe-t6-Paginando.git
+
+### **2. Entrar na pasta do projeto**
 ```bash
 cd my-app
 ```
 
-### **2. Instalar dependências**
+### **3. Instalar dependências**
 ```bash
 npm install
 ```
 
-### **3. Executar em modo desenvolvimento**
+### **4. Executar em modo desenvolvimento**
 ```bash
 npm start
 ```
