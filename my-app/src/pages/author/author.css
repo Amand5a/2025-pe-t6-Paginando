@@ -1,0 +1,27 @@
+.authorpage { max-width: 1100px; margin: 1.5rem auto; padding: 0 1rem; display: grid; gap: 1.25rem; }
+
+.authorpage__header {
+  display: flex; align-items: center; gap: 1rem;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1rem;
+}
+.authorpage__avatar { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+.authorpage__name { margin: 0; font-size: var(--fs-xl); color: var(--text-primary); }
+.authorpage__info { margin: 4px 0 0 0; color: var(--text-secondary); }
+
+.authorpage__section { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 1rem; }
+.authorpage__title { margin: 0 0 0.5rem 0; color: var(--text-primary); font-size: var(--fs-lg); }
+.authorpage__text { white-space: pre-wrap; line-height: 1.75; color: var(--text-primary); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chip { background: var(--accent-light); color: var(--accent-orange); border-radius: 999px; padding: 0.3rem 0.7rem; font-weight: 600; font-size: 0.85rem; }
+.chip--muted { background: #eef2f7; color: var(--text-primary); }
+
+.authorpage__grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+
+.authorpage__actions { display: flex; justify-content: flex-end; }
+
+@media (max-width: 720px) {
+  .authorpage__header { flex-direction: column; align-items: flex-start; }
+}
+

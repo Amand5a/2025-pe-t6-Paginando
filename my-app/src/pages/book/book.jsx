@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { books } from "../../data/books";
+import "./book.css";
 
 export default function BookDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const book = books.find((b) => b.id === Number(id));
+  const authorId = useMemo(() => (book ? book.authorId : undefined), [book]);
 
   if (!book) {
     return (
@@ -17,57 +19,47 @@ export default function BookDetails() {
   }
 
   return (
-    <section style={{ display: "grid", gap: "1rem", padding: "1rem" }}>
-      <header style={{ display: "flex", gap: 16, alignItems: "center" }}>
+    <section className="bookpage">
+      <header className="bookpage__header">
         {book.image && (
-          <img src={book.image} alt={book.title} style={{ width: 120, height: 160, objectFit: "cover", borderRadius: 8 }} />
+          <img src={book.image} alt={book.title} className="bookpage__cover" />
         )}
-        <div>
-          <h1 style={{ margin: 0 }}>{book.title}</h1>
-          <p style={{ margin: "4px 0", color: "#475569" }}>
+        <div className="bookpage__meta">
+          <h1 className="bookpage__title">{book.title}</h1>
+          <p className="bookpage__by">
             por {" "}
-            <Link to={`/autor/${book.authorId}`} style={{ color: "#0ea5e9" }}>
-              {book.author}
-            </Link>
+            {authorId ? (
+              <Link to={`/autor/${authorId}`} className="bookpage__authorlink">
+                {book.author}
+              </Link>
+            ) : (
+              <span>{book.author}</span>
+            )}
           </p>
-          <p style={{ margin: 0, color: "#64748b" }}>
-            Gênero: {book.genre} • Avaliação: {book.rating}
-          </p>
+          <div className="bookpage__tags">
+            {book.genre && <span className="tag">{book.genre}</span>}
+            {book.rating != null && (
+              <span className="tag tag--rating">★ {book.rating}</span>
+            )}
+          </div>
+          <div className="bookpage__actions">
+            <button className="btn btn--accent btn--md" onClick={() => navigate(`/livro/${book.id}/page`)}>
+              Ler agora
+            </button>
+            <button className="btn btn--default btn--md" onClick={() => navigate(-1)}>
+              Voltar
+            </button>
+          </div>
         </div>
       </header>
 
       {book.synopsis && (
-        <article>
-          <h3>Sinopse</h3>
-          <p style={{ lineHeight: 1.7 }}>{book.synopsis}</p>
-        </article>
+        <section className="bookpage__section">
+          <h3 className="bookpage__sectiontitle">Sinopse</h3>
+          <p className="bookpage__text">{book.synopsis}</p>
+        </section>
       )}
-
-      <div>
-        <button onClick={() => navigate(`/livro/${book.id}/page`)} style={btnPrimary}>Ler agora</button>
-        <button onClick={() => navigate(-1)} style={{ ...btnOutline, marginLeft: 8 }}>Voltar</button>
-      </div>
     </section>
   );
 }
-
-const btnPrimary = {
-  padding: "0.6rem 1rem",
-  borderRadius: 8,
-  border: "none",
-  background: "#ff6b00",
-  color: "#fff",
-  fontWeight: 600,
-  cursor: "pointer",
-};
-
-const btnOutline = {
-  padding: "0.6rem 1rem",
-  borderRadius: 8,
-  border: "1px solid #cbd5e1",
-  background: "transparent",
-  color: "#334155",
-  fontWeight: 600,
-  cursor: "pointer",
-};
 

@@ -1,7 +1,9 @@
 import React, { useMemo } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { authors } from "../../data/authors";
 import { books } from "../../data/books";
+import BookCards from "../../components/books/cards/BookCards";
+import "./author.css";
 
 export default function AuthorDetails() {
   const { id } = useParams();
@@ -20,56 +22,52 @@ export default function AuthorDetails() {
   }
 
   return (
-    <section style={{ display: "grid", gap: "1.25rem", padding: "1rem" }}>
-      <header style={{ display: "flex", gap: 16, alignItems: "center" }}>
+    <section className="authorpage">
+      <header className="authorpage__header">
         {author.image && (
-          <img src={author.image} alt={author.name} style={{ width: 120, height: 120, objectFit: "cover", borderRadius: "50%" }} />
+          <img src={author.image} alt={author.name} className="authorpage__avatar" />
         )}
         <div>
-          <h1 style={{ margin: 0 }}>{author.name}</h1>
-          <p style={{ margin: "4px 0", color: "#64748b" }}>
-            {author.nationality} • {author.birthDate}
-          </p>
+          <h1 className="authorpage__name">{author.name}</h1>
+          <p className="authorpage__info">{author.nationality} • {author.birthDate}</p>
         </div>
       </header>
 
       {author.biography && (
-        <article>
-          <h3>Biografia</h3>
-          <p style={{ whiteSpace: "pre-wrap", lineHeight: 1.7 }}>{author.biography}</p>
+        <article className="authorpage__section">
+          <h3 className="authorpage__title">Biografia</h3>
+          <p className="authorpage__text">{author.biography}</p>
         </article>
       )}
 
       {Array.isArray(author.notableWorks) && author.notableWorks.length > 0 && (
-        <section>
-          <h3>Obras notáveis</h3>
-          <ul>
+        <section className="authorpage__section">
+          <h3 className="authorpage__title">Obras notáveis</h3>
+          <div className="chips">
             {author.notableWorks.map((w, i) => (
-              <li key={i}>{w}</li>
+              <span className="chip" key={i}>{w}</span>
             ))}
-          </ul>
+          </div>
         </section>
       )}
 
       {Array.isArray(author.awards) && author.awards.length > 0 && (
-        <section>
-          <h3>Prêmios</h3>
-          <ul>
+        <section className="authorpage__section">
+          <h3 className="authorpage__title">Prêmios</h3>
+          <div className="chips">
             {author.awards.map((w, i) => (
-              <li key={i}>{w}</li>
+              <span className="chip chip--muted" key={i}>{w}</span>
             ))}
-          </ul>
+          </div>
         </section>
       )}
 
-      <section>
-        <h3>Livros do autor</h3>
-        <div style={{ display: "grid", gap: 12 }}>
+      <section className="authorpage__section">
+        <h3 className="authorpage__title">Livros do autor</h3>
+        <div className="authorpage__grid">
           {authorBooks.length > 0 ? (
             authorBooks.map((b) => (
-              <Link key={b.id} to={`/livro/${b.id}`} style={{ color: "#0ea5e9" }}>
-                {b.title}
-              </Link>
+              <BookCards key={b.id} id={b.id} title={b.title} author={b.author} image={b.image} />
             ))
           ) : (
             <p>Sem livros no catálogo.</p>
@@ -77,10 +75,9 @@ export default function AuthorDetails() {
         </div>
       </section>
 
-      <div>
-        <button onClick={() => navigate(-1)} style={{ padding: "0.6rem 1rem", borderRadius: 8, border: "1px solid #cbd5e1", background: "transparent", cursor: "pointer" }}>Voltar</button>
+      <div className="authorpage__actions">
+        <button className="btn btn--default btn--md" onClick={() => navigate(-1)}>Voltar</button>
       </div>
     </section>
   );
 }
-
