@@ -23,12 +23,9 @@ A proposta é oferecer uma experiência fluida e envolvente de leitura online, i
 
 ## Instalação e Execução
 
-### **1. Clonar o repositório**
+### **1. Clonar o repositório e entrar na pasta do projeto**
 ```bash
 git clone https://github.com/Amand5a/2025-pe-t6-Paginando.git
-
-### **2. Entrar na pasta do projeto**
-```bash
 cd my-app
 ```
 
