@@ -1,0 +1,58 @@
+.bookcarousel {
+  padding: 0.5rem 0;
+}
+
+.bookcarousel__title {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.25rem;
+  color: #1a2b48;
+}
+
+.bookcarousel__row {
+  display: grid;
+  grid-template-columns: 36px 1fr 36px;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.bookcarousel__track {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding: 0.25rem 0.25rem 0.75rem; /* espaço inferior para evitar recorte */
+
+  /* esconder scrollbar (WebKit) */
+}
+.bookcarousel__track::-webkit-scrollbar { display: none; }
+
+/* esconder scrollbar (Firefox/Edge) */
+.bookcarousel__track { scrollbar-width: none; -ms-overflow-style: none; }
+
+.bookcarousel__slide {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+}
+
+.bookcarousel__arrow {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(26, 43, 72, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  color: #1a2b48;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+}
+
+.bookcarousel__arrow:hover { transform: scale(1.05); }
+.bookcarousel__arrow:disabled { opacity: 0.35; cursor: not-allowed; }
+/* quando o espaço for pequeno, mantém proporção */
+@media (max-width: 768px) {
+  .bookcarousel__row { grid-template-columns: 32px 1fr 32px; gap: 0.5rem; }
+  .bookcarousel__arrow { width: 32px; height: 32px; }
+}

@@ -1,0 +1,116 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --font-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --primary-bg: #f4f7f9;
+  --white: #ffffff;
+  --border: #e5e9ec;
+  --text-primary: #1A2B48;
+  --text-secondary: #7A8291;
+  --accent-orange: #ff6b00;
+  --accent-light: #FFF0E6;
+  --fs-xs: clamp(0.80rem, 0.78rem + 0.2vw, 0.88rem);
+  --fs-sm: clamp(0.92rem, 0.90rem + 0.3vw, 1.00rem);
+  --fs-md: clamp(1.00rem, 0.98rem + 0.4vw, 1.10rem);
+  --fs-lg: clamp(1.25rem, 1.15rem + 0.6vw, 1.50rem);
+  --fs-xl: clamp(1.60rem, 1.45rem + 1.0vw, 2.00rem);
+  --fs-2xl: clamp(2.00rem, 1.80rem + 1.4vw, 2.60rem);
+}
+
+body {
+  background-color: #f4f7f9;
+  font-family: 'Inter', sans-serif;
+}
+
+.app {
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  background-color: #f4f7f9;
+  min-height: 100vh;
+  padding: 40px;
+  color: #1a2b48;
+}
+.page__header {
+  text-align: center;
+  margin: 3rem auto 2rem;
+  padding: 0 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* TÍTULO PRINCIPAL */
+.page__titulo {
+  color: #1A2B48; /* Azul Marinho Escuro */
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+/* SUBTÍTULO / DESCRIÇÃO */
+.page__info {
+  color: #7A8291; /* Cinza-Azulado */
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.5;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.title {
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 0.75rem 0; /* margem padrão inferior */
+}
+
+.title--2xl { font-size: var(--fs-2xl); }
+.title--xl  { font-size: var(--fs-xl); }
+.title--lg  { font-size: var(--fs-lg); }
+.title--md  { font-size: var(--fs-md); }
+.title--sm  { font-size: var(--fs-sm); }
+
+/* === Subtítulos globais === */
+.subtitle {
+  color: var(--text-secondary);
+  font-weight: 500;
+  line-height: 1.45;
+  margin: 0 0 1.25rem 0; /* margem padrão inferior */
+}
+
+.subtitle--lg { font-size: var(--fs-lg); }
+.subtitle--md { font-size: var(--fs-md); }
+.subtitle--sm { font-size: var(--fs-sm); }
+.subtitle--xs { font-size: var(--fs-xs); }
+
+/* === Utilitários simples de alinhamento (opcional) === */
+.text-center { text-align: center; }
+.text-left   { text-align: left; }
+.text-right  { text-align: right; }
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  .page__header {
+    margin: 2rem auto;
+  }
+
+  .page__titulo {
+    font-size: 1.8rem;
+  }
+
+  .page__info {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,120 @@
+.listmenu {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0 3rem;
+}
+
+/* Desktop: chips roláveis + CTA */
+.listmenu__row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.listmenu__scroller {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding: 0.25rem;
+  max-width: min(90vw, 960px);
+}
+.listmenu__scroller::-webkit-scrollbar { display: none; }
+.listmenu__scroller { scrollbar-width: none; -ms-overflow-style: none; }
+
+.listmenu__chipwrap { scroll-snap-align: start; flex: 0 0 auto; }
+
+/* Aparência de chip para os botões dentro do listmenu */
+.listmenu .btn--default {
+  background: #fff;
+  color: #1a2b48;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+.listmenu .btn--default:hover {
+  background: #fff;
+  border-color: #ff6b00;
+  color: #ff6b00;
+}
+
+/* manter o ativo em azul para não confundir */
+.listmenu .btn--default.btn--active {
+  background: #1a2b48;
+  color: #ffffff;
+  border-color: #1a2b48;
+}
+.listmenu .btn--default.btn--active:hover {
+  background: #22365e; /* leve variação no hover */
+  color: #ffffff;
+  border-color: #22365e;
+}
+
+/* Mobile layout */
+.listmenu__mobile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Select (mobile) */
+.listmenu__select {
+  width: 85%;
+  max-width: 360px;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  border-radius: 0.65rem;
+  border: 1px solid #dce0e6;
+  background: #fff;
+  color: #1a2b48;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.listmenu__select:focus {
+  border-color: #ff6b00;
+  box-shadow: 0 0 0 2px rgba(255, 107, 0, 0.2);
+}
+
+/* CTA Nova Lista */
+.listmenu__newlist {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff6b00;
+  color: #fff;
+  border: none;
+  border-radius: 0.6rem;
+  padding: 0.55rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.listmenu__newlist:hover {
+  background-color: #e65f00;
+  transform: translateY(-2px);
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .listmenu__row { gap: 0.6rem; }
+}
+
+@media (max-width: 600px) {
+  .listmenu__mobile { gap: 0.8rem; }
+  .listmenu__select {
+    width: 92%;
+    max-width: 95vw;
+    font-size: 0.9rem;
+    padding: 0.65rem 0.9rem;
+  }
+  .listmenu__newlist {
+    width: 85%;
+    font-size: 0.85rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 0.55rem;
+  }
+}

@@ -1,0 +1,123 @@
+
+.favoritos {
+  margin-top: 2rem; /* espaço do topo */
+}
+
+.favoritos__titulo {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+/* GRID DE CARDS */
+.favoritos__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 2rem;
+  justify-items: center;
+}
+
+/* Toolbar minimalista para ações da lista */
+.favoritos__toolbar {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.75rem 0 1rem;
+}
+
+.favtool__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  color: #1a2b48;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.favtool__btn:hover { background: #edf2f7; transform: translateY(-1px); }
+.favtool__btn--danger { color: #c0392b; border-color: #f2d7d5; background: #fef4f3; }
+.favtool__btn--danger:hover { background: #fde8e6; }
+
+/* CARD INDIVIDUAL */
+.favoritos__card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  max-width: 20rem;
+  width: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.favoritos__card:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: 0 0.625rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+/* CAPA */
+.favoritos__cover {
+  background: #f4f7f9;
+  height: 12rem;
+}
+
+/* INFO */
+.favoritos__info {
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.favoritos__info h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.favoritos__info p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.favoritos__info span {
+  background: var(--accent-light);
+  color: var(--accent-orange);
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 1rem;
+  padding: 0.25rem 0.75rem;
+}
+
+/* === RESPONSIVIDADE === */
+
+/* tablets e telas médias */
+@media (max-width: 1024px) {
+  .favoritos__titulo {
+    font-size: 1.4rem;
+  }
+  .favoritos__grid {
+    gap: 1.5rem;
+  }
+}
+
+/* smartphones */
+@media (max-width: 600px) {
+  .favoritos__titulo {
+    font-size: 1.25rem;
+    text-align: center;
+  }
+  .favoritos__grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .favoritos__card {
+    max-width: 90%;
+  }
+}

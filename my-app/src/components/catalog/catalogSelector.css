@@ -1,0 +1,139 @@
+.catalog {
+  background: var(--primary-bg);
+  border-radius: 1.25rem;
+  padding: 3rem 2rem 4rem;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.catalog__content {
+  width: 100%;
+  max-width: 900px;
+}
+
+.catalog__title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.catalog__subtitle {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+/* === LINHA DE CONTROLES (busca + filtro) === */
+.catalog__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+/* === Barra de busca === */
+.catalog__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  max-width: 600px;
+}
+
+.catalog__search-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-secondary);
+}
+
+.catalog__input {
+  width: 100%;
+  padding: 0.65rem 1rem 0.65rem 2.5rem;
+  border-radius: 0.6rem;
+  border: 1px solid #e4e7ec;
+  background: #fff;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.catalog__input:focus {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 2px rgba(255, 107, 0, 0.15);
+  outline: none;
+}
+
+/* === Botão de filtro === */
+.catalog__filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff;
+  border: 1px solid #e4e7ec;
+  border-radius: 0.6rem;
+  padding: 0.6rem 1.25rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.catalog__filter-btn:hover {
+  border-color: var(--accent-orange);
+  color: var(--accent-orange);
+}
+
+/* === Gêneros === */
+.catalog__genres {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.catalog__chip {
+  background: #fff;
+  border: 1px solid #e4e7ec;
+  border-radius: 2rem;
+  padding: 0.4rem 1.25rem;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.catalog__chip:hover {
+  background: var(--accent-light);
+  color: var(--accent-orange);
+  border-color: var(--accent-orange);
+}
+
+/* === Responsividade === */
+@media (max-width: 768px) {
+  .catalog {
+    padding: 2rem 1rem;
+  }
+
+  .catalog__controls {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .catalog__title {
+    font-size: 1.6rem;
+  }
+
+  .catalog__input {
+    font-size: 0.95rem;
+    padding: 0.6rem 1rem 0.6rem 2.3rem;
+  }
+
+  .catalog__filter-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
