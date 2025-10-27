@@ -9,7 +9,7 @@ export default function Home() {
   const { readingProgress } = useUser();
 
   const inProgress = useMemo(() => {
-    // Prefer progress from context; fallback to localStorage keys set pelo leitor.
+    // fallback via localstorage
     const idsFromContext = Object.entries(readingProgress || {})
       .filter(([, v]) => v && typeof v === "object")
       .filter(([, v]) => {
@@ -34,13 +34,12 @@ export default function Home() {
   }, [readingProgress]);
 
   const mostRead = useMemo(() => {
-    // Placeholder: ordena por rating como proxy de "mais lidos".
+    // ordena por rating como proxy de "mais lidos".
     return [...books].sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 5);
   }, []);
 
   const recommended = useMemo(() => {
-    // Placeholder: estrutura pronta para recomendações futuras.
-    // Hoje: escolhe um subconjunto estável (por id) ignorando os já em andamento.
+    // Placeholder: estrutura pronta para implementar lógica de recomendações. 
     const inProgressSet = new Set(inProgress.map((b) => b.id));
     return books.filter((b) => !inProgressSet.has(b.id)).slice(0, 10);
   }, [inProgress]);
@@ -70,7 +69,7 @@ export default function Home() {
       </section>
 
       <section>
-        <BookCarousel title="Top 5 mais lidos">
+        <BookCarousel title="Mais lidos">
           {mostRead.map((book) => (
             <BookCards key={book.id} id={book.id} title={book.title} author={book.author} image={book.image} />
           ))}

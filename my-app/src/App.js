@@ -7,6 +7,8 @@ import Favoritos from "./pages/favoritos/favoritos";
 import Acervo from "./pages/acervo/acervo";
 import TextBookReader from "./components/books/reader/BookReader";
 import Home from "./pages/home/home";
+import BookDetails from "./pages/book/book";
+import AuthorDetails from "./pages/author/author";
 
 
 function BookReaderPage() {
@@ -30,6 +32,8 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/acervo" element={<Acervo />} />
           <Route path="/favoritos" element={<Favoritos />} />
+          <Route path="/livro/:id" element={<BookDetails />} />
+          <Route path="/autor/:id" element={<AuthorDetails />} />
           <Route path="/livro/:id/page" element={<BookReaderPage />} />
         </Routes>
       </Layout>

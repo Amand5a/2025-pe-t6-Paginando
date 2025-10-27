@@ -4,6 +4,7 @@ import { Star, Plus } from "lucide-react";
 import { useUser } from "../../../context/UserContext";
 import "./BookCards.css";
 import { useNavigate } from "react-router-dom";
+import { books as allBooks } from "../../../data/books";
 
 export default function BookCards({ id, title, author, image }) {
   const navigate = useNavigate();
@@ -107,6 +108,19 @@ export default function BookCards({ id, title, author, image }) {
     navigate(`/livro/${id}/page`);
   };
 
+  const handleOpenBook = () => {
+    navigate(`/livro/${id}`);
+  };
+
+  const authorId = useMemo(() => {
+    const b = allBooks.find((x) => x.id === id);
+    return b?.authorId;
+  }, [id]);
+
+  const handleOpenAuthor = () => {
+    if (authorId) navigate(`/autor/${authorId}`);
+  };
+
   return (
     <div className="bookcard-container bookcard-modern">
       <div className="bookcard-image-area">
@@ -175,8 +189,12 @@ export default function BookCards({ id, title, author, image }) {
       </div>
 
       <div className="bookcard-footer-modern">
-        <h3 className="bookcard-title-modern">{title}</h3>
-        <p className="bookcard-author-modern">{author}</p>
+        <h3 className="bookcard-title-modern" onClick={handleOpenBook} style={{ cursor: "pointer" }}>
+          {title}
+        </h3>
+        <p className="bookcard-author-modern" onClick={handleOpenAuthor} style={{ cursor: authorId ? "pointer" : "default" }}>
+          {author}
+        </p>
 
         <button className="bookcard-button" onClick={handleStartReading}>
           Iniciar Leitura
