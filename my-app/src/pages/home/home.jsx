@@ -3,6 +3,7 @@ import { useUser } from "../../context/UserContext";
 import { books } from "../../data/books";
 import BookCarousel from "../../components/books/carousel/BookCarousel";
 import BookCards from "../../components/books/cards/BookCards";
+import HeroBanner from "../../components/banner/herobanner";
 
 export default function Home() {
   const { readingProgress } = useUser();
@@ -46,6 +47,8 @@ export default function Home() {
 
   return (
     <div className="home" style={{ display: "grid", gap: "2rem" }}>
+      <HeroBanner />
+
       <section>
         <BookCarousel title="Leituras em andamento">
           {inProgress.length > 0 ? (
@@ -76,4 +79,3 @@ export default function Home() {
     </div>
   );
 }
-
