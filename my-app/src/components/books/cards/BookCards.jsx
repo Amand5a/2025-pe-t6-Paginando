@@ -104,9 +104,33 @@ export default function BookCards({ id, title, author, image }) {
   };
 
   const handleStartReading = () => {
-    updateReadingProgress(id, 1, 100);
-    navigate(`/livro/${id}/page`);
-  };
+  // Atualiza progresso
+  updateReadingProgress(id, 1, 100);
+
+  // Pega dados do livro atual
+  const book = allBooks.find((b) => b.id === id);
+  if (book) {
+    const tags = [book.genre, book.author, ...(book.tags || [])];
+
+    // Salva tags localmente para o Expert Reader
+    localStorage.setItem("lastReadingTags", JSON.stringify(tags));
+
+    // Atualiza overlay, se existir
+    const overlay = JSON.parse(localStorage.getItem("userOverlayV2")) || { byBookId: {} };
+    overlay.byBookId[id] = {
+      ...(overlay.byBookId[id] || {}),
+      leitura: {
+        ativo: true,
+        lastOpenedAt: new Date().toISOString(),
+        tags,
+      },
+    };
+    localStorage.setItem("userOverlayV2", JSON.stringify(overlay));
+  }
+
+  // Navega para a página de leitura
+  navigate(`/livro/${id}/page`);
+};
 
   const handleOpenBook = () => {
     navigate(`/livro/${id}`);
