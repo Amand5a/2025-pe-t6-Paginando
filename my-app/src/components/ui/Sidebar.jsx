@@ -1,13 +1,12 @@
 import React from "react";
-import { Star, Clock, Bookmark, GraduationCap } from "lucide-react";
+import { Clock, Bookmark, GraduationCap } from "lucide-react";
 import "./ui.css";
 
 export function Sidebar() {
   const sidebarItems = [
-    { name: "Favoritos", icon: Star, path: "/favoritos" },
-    { name: "Ler Mais Tarde", icon: Clock, path: "/ler-mais-tarde" },
-    { name: "Me Indicaram", icon: Bookmark, path: "/me-indicar" },
-    { name: "Estudos", icon: GraduationCap, path: "/estudos" },
+    { name: "Histórico", icon: Clock, path: "/historico" },
+    { name: "Clubs", icon: GraduationCap, path: "/clubs" },
+    { name: "Minhas Listas", icon: Bookmark, path: "/minhas-listas" },
   ];
 
   return (
