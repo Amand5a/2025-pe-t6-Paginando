@@ -53,7 +53,7 @@ A seguir são descritos os principais Casos de Teste (CT) que verificam os Requi
 **Procedimento** | 1) Acessar a página inicial da Biblioteca Online. <br> 2) Autenticar-se ou carregar o estado de um usuário com leituras anteriores. <br> 3) Observar a seção de **Histórico de leitura**. <br> 4) Observar a seção de **Indicações de leitura**. <br> 5) Observar a seção de **Livros mais lidos**. <br> 6) Acessar a visão geral de **acervo** (lista completa / visão de catálogo).
 **Resultado esperado** | A tela inicial (ou painel principal) deve exibir: (a) lista com os últimos livros lidos pelo usuário (histórico); (b) bloco com indicações de leitura; (c) bloco com livros mais lidos no sistema; (d) acesso visível ao acervo completo (lista ou link para o catálogo).
 **Dados de entrada** | Usuário com histórico de leitura pré-cadastrado; base de livros com informações de popularidade.
-**Resultado obtido** | A pagina exibe histórico e livros mais vistos. O botão redireciona ao acervo corretamente. As recomendações da pagina principal não seguem histórico do leitor.
+**Resultado obtido** | A pagina exibe histórico e livros mais vistos. O botão redireciona ao acervo corretamente. As recomendações da pagina principal não seguem histórico do leitor. 
 
 ---
 
@@ -163,14 +163,60 @@ Esta seção apresenta o relatório com as evidências dos testes de software re
 
 ## Avaliação dos Testes de Software
 
-Nesta seção o grupo deve discorrer sobre os resultados obtidos após a execução dos casos de teste, abordando:
+### Pontos fortes
 
-- **Pontos fortes**: funcionalidades que passaram em todos os testes, boa resposta de performance, boa usabilidade observada etc.
-- **Pontos fracos / falhas encontradas**: casos de teste que falharam, comportamentos inesperados, problemas de layout ou acessibilidade.
-- **Ações de melhoria**: correções planejadas, refino de interface, ajustes na organização do catálogo, melhorias no mecanismo de recomendação, etc.
-- **Impacto nos requisitos**: quais requisitos (RF/RNF) sofreram alterações ou precisam ser revisados a partir dos resultados dos testes.
+- **RF-001 – Histórico e acervo**  
+  - Página inicial exibe corretamente histórico de leitura e livros mais vistos.  
+  - Acesso ao acervo via botão está funcional e intuitivo.
 
-> Esta seção deve ser preenchida após a execução dos testes e análise das evidências.
+- **RF-002 – Busca e filtros**  
+  - Busca por título, autor e gênero funciona corretamente.  
+  - Filtros podem ser aplicados tanto individualmente quanto em conjunto, sem erro aparente.
+
+- **RF-003 – Detalhes do livro**  
+  - Tela de detalhes exibe sinopse do livro de forma clara e com retorno funcional.  
+  - Informações do autor são ricas (livros, biografia, premiações), indo além do mínimo exigido.
+
+- **RF-004 – Navegação**  
+  - Navegação entre seções principais é rápida e funcional, sem travamentos ou erros de rota evidentes.
+
+- **RF-005 – Leitura**  
+  - Livros disponíveis são exibidos corretamente para leitura no leitor (epub) embutido.
+
+- **RF-006 – Favoritos e listas**  
+  - Adicionar livros a listas e favoritos é rápido e intuitivo.  
+  - Livros aparecem corretamente tanto em “Favoritos” quanto nas listas personalizadas.  
+  - Edição e remoção de listas funcionam bem.
+
+- **RF-007 – Histórico e configurações**  
+  - Histórico de leitura é preservado com sucesso quando o acesso é feito pelo mesmo navegador.
+
+- **RF-008 – Recomendações**  
+  - Sistema já consegue gerar recomendações baseadas em favoritos e estilos, utilizando dados reais de uso (não apenas lista estática).
+
+---
+
+### Pontos fracos / falhas encontradas
+
+- **Recomendações não totalmente personalizadas (RF-001 / RF-008)**  
+  - Na página principal, as recomendações não seguem o histórico do leitor.  
+  - Sistema também recomenda livros que o usuário já leu, reduzindo a utilidade das sugestões.
+
+- **Navegação para Home (RF-004)**  
+  - Usuários relataram leve dificuldade ao retornar para a página inicial, indicando que o caminho de volta não está tão evidente quanto poderia.
+
+- **Leitor – Tema e zoom (RF-005 + usabilidade/acessibilidade)**  
+  - Alteração de tema possui problemas ao retornar para o tema inicial.  
+  - Zoom/tamanho da fonte apresentam falhas, não sendo possível ajustar a leitura de forma adequada.
+
+- **Desempenho na criação de listas via cards (RF-006 + desempenho)**  
+  - Ao criar listas diretamente pelos cards, o delay torna a experiência “inviável”, impactando a sensação de fluidez.
+
+- **Persistência limitada ao mesmo navegador (RF-007)**  
+  - Histórico e configurações só são preservados quando o acesso é feito pelo mesmo navegador, o que pode ser uma limitação dependendo da interpretação do requisitos.
+
+- **Qualidade do mecanismo de recomendação (RF-008)**  
+  - Apesar de usar favoritos/histórico como referência, a lógica ainda é pouco refinada, especialmente por sugerir livros já lidos e não priorizar novidades ou similaridade mais inteligente.
 
 ---
 
@@ -189,67 +235,56 @@ Caso o grupo deseje se aprofundar, poderão ser desenvolvidos testes automatizad
 
 O objetivo do Plano de Testes de Usabilidade é obter informações quanto à expectativa dos usuários em relação à funcionalidade da aplicação, facilidade de uso, clareza das informações e eficiência na realização de tarefas típicas de uma **Biblioteca Online**.
 
-Serão convidados usuários que se encaixem nos perfis definidos nas personas:
-
-- Leitores frequentes, leitores ocasionais, estudantes e público geral.
-- Administrador simulado (membro da equipe) para testar a organização do catálogo.
-
 Serão avaliados os seguintes indicadores:
 
 - **Taxa de sucesso**: se o usuário conseguiu ou não executar a tarefa proposta.
-- **Satisfação subjetiva**: avaliação de 1 a 5, sendo 1 = Péssimo e 5 = Ótimo.
-- **Tempo para conclusão da tarefa**: em segundos, comparado ao tempo de um especialista (desenvolvedor) executando a mesma tarefa.
+- **Satisfação subjetiva**: avaliação de 1 a 5, sendo 1 = MUITO BAIXA e 5 = MUITO ALTA.
 
 ---
 
 ## Cenários de Teste de Usabilidade
 
+## Cenários de Teste de Usabilidade
+
 | Nº do Cenário | Descrição do cenário |
 |---------------|----------------------|
-| 1 | Você é um leitor que deseja encontrar um livro específico pelo título. Use a Biblioteca Online para localizar o livro e visualizar suas informações detalhadas. |
-| 2 | Você é um estudante que quer ler um livro disponível. Encontre um livro na categoria "Estudos"/"Acadêmico", verifique se está disponível e inicie a leitura online (PDF). |
-| 3 | Você é um usuário que deseja organizar suas leituras. Acesse um livro, marque-o como favorito e adicione-o a uma lista personalizada. Depois, verifique a lista criada. |
-| 4 | Você é um leitor que retorna ao sistema e quer continuar de onde parou. Acesse a aplicação, encontre a seção de leituras recentes e retome a leitura de um livro já iniciado. |
+| 1 | Você é um leitor que acabou de acessar a Biblioteca Online e quer ter uma visão geral do sistema. Você deseja ver o histórico de leitura, receber indicações de leitura, conhecer os livros mais lidos e acessar o acervo completo para explorar novas obras.  |
+| 2 | Você é um leitor que está procurando um livro específico, mas não lembra exatamente o título. Você tenta pesquisar por título, depois por autor, e por fim decide usar o filtro de gênero e outros parâmetros de filtragem para encontrar o livro desejado. |
+| 3 | Você é um leitor indeciso sobre qual livro começar. Ao encontrar um livro interessante no catálogo, você acessa a tela de detalhes, lê o resumo, verifica o autor e a categoria para decidir se o livro atende às suas expectativas antes de iniciar a leitura.  |
+| 4 | Você é um novo usuário da Biblioteca Online e quer entender como navegar pelo sistema. Você tenta acessar a página inicial, o catálogo, suas leituras ou favoritos, as recomendações e depois retornar facilmente à tela principal, avaliando se a navegação é simples, clara e intuitiva. |
+| 5 | Você é um estudante que precisa ler um livro específico para uma atividade. Ao encontrar o livro no catálogo, você verifica se ele está disponível e inicia a leitura online por meio do epub ou leitor embutido, testando se a experiência de leitura é fluida e funcional. |
+| 6 | Você é um leitor que gosta de organizar o que pretende ler. Ao navegar pelo catálogo, você marca alguns livros como favoritos e cria uma lista personalizada para agrupar essas obras, verificando depois se consegue encontrar e usar essa lista com facilidade. |
+| 7 | Você é um leitor que usa a Biblioteca Online com frequência. Em uma sessão, você ajusta algumas configurações(por exemplo, tema de interface ou preferências de leitura) e inicia a leitura de um livro. Mais tarde, você retorna ao sistema e espera que ele lembre seu histórico de acesso, suas configurações e as leituras recentes, permitindo retomar de onde parou.  |
+| 8 | Você é um leitor que já concluiu alguns livros na plataforma e quer descobrir novas opções. Ao acessar a aplicação, você vai até a área de recomendações e espera receber sugestões de livros baseadas no seu histórico de leitura, em vez de uma lista genérica qualquer. (Avalia RF-008) |
+| 9 | Você é o administrador simulado da Biblioteca Online e precisa manter o catálogo atualizado. Você acessa a área administrativa para adicionar um novo livro, depois editar os dados de um livro existente e, por fim, remover um livro que não deve mais aparecer para os leitores, conferindo se tudo reflete corretamente no catálogo público. (Avalia RF-009) |
+| 10 | Você é o administrador simulado responsável por organizar o acervo por categorias. Você acessa a área administrativa, atribui e ajusta categorias nos livros (por exemplo, “Romance”, “Tecnologia”, “Acadêmico”) e depois verifica, na visão do leitor, se a organização por categorias realmente facilita a navegação e a busca pelos livros. |
 
 ---
 
 ## Registro dos Testes de Usabilidade
 
-A seguir um modelo de registro para cada cenário de usabilidade. Os dados devem ser preenchidos após a execução dos testes com os usuários.
+Taxa de Sucesso e Satisfação referente aos cenários descritos. As taxas apresentadas referem-se a média das taxas avaliadas em cada ação executada em determinado teste.
 
-### Cenário 1: Encontrar livro por título e ver detalhes
-
-| Usuário | Taxa de sucesso | Satisfação subjetiva | Tempo para conclusão do cenário |
-|---------|-----------------|----------------------|---------------------------------|
-| 1 | SIM/NÃO | 1–5 | _X_ segundos |
-| 2 | SIM/NÃO | 1–5 | _X_ segundos |
-| **Média** | % de sucesso | Média da nota | Média do tempo |
-| **Tempo para conclusão pelo especialista** | SIM | 1–5 | _X_ segundos |
-
----
-
-### Cenário 2: Verificar disponibilidade e iniciar leitura online
-
-| Usuário | Taxa de sucesso | Satisfação subjetiva | Tempo para conclusão do cenário |
-|---------|-----------------|----------------------|---------------------------------|
-| 1 | SIM/NÃO | 1–5 | _X_ segundos |
-| 2 | SIM/NÃO | 1–5 | _X_ segundos |
-| **Média** | % de sucesso | Média da nota | Média do tempo |
-| **Tempo para conclusão pelo especialista** | SIM | 1–5 | _X_ segundos |
+| Usuário | Taxa de sucesso | Satisfação subjetiva |
+|---------|-----------------|----------------------|
+| 1 | SIM/NÃO | 4| ALTA |
+| 2 | SIM/NÃO | 5| MUITO ALTA |
+| 2 | SIM/NÃO | 5| MUITO ALTA |
+| 2 | SIM/NÃO | 2| BAIXA |
+| 2 | SIM/NÃO | 3| MÉDIA |
+| 2 | SIM/NÃO | 4 | ALTA |
+| 2 | SIM/NÃO | 5| MUITO ALTA |
 
 ---
+
 
 ## Avaliação dos Testes de Usabilidade
 
-Com base nos registros dos cenários de usabilidade, o grupo deve:
-
-- Avaliar se os usuários conseguiram completar as tarefas propostas com facilidade;
-- Analisar a satisfação subjetiva e os comentários qualitativos dos participantes;
-- Comparar o tempo médio dos usuários com o tempo do especialista;
+- Todas as tarefas básicas podem ser cumpridas pelo usuário com facilidade.
 - Identificar oportunidades de melhoria:
-  - Clareza de rótulos e textos;
-  - Organização dos elementos na tela;
-  - Descobribilidade das funções de busca, favoritos, listas e recomendações;
-  - Navegação entre páginas e retorno ao catálogo.
+  - Melhorar navegação entre páginas.
+  - Ajustar mensagens de erro.
+  - Corrigir erro de configuração do leitor epub.
+  - Melhorar mecanismo de indicação e segurança.
 
-A partir dessa análise, devem ser registradas as melhorias planejadas na interface e na experiência do usuário para as próximas iterações do projeto da Biblioteca Online.
+
