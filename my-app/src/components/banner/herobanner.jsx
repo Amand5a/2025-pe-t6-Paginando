@@ -1,7 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./herobanner.css";
 
 export default function HeroBanner() {
+  const navigate = useNavigate();
+
+  const handleStartReading = () => {
+    navigate("/acervo");
+  };
+
   return (
     <section className="hero">
       <div className="hero__content">
@@ -9,7 +16,9 @@ export default function HeroBanner() {
         <p className="hero__subtitle">
           Explore uma vasta coleção de livros e recomendações personalizadas.
         </p>
-        <button className="hero__button">Começar a Ler</button>
+        <button className="hero__button" onClick={handleStartReading}>
+          Começar a Ler
+        </button>
       </div>
     </section>
   );

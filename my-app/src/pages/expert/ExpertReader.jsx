@@ -1,35 +1,88 @@
 import React, { useMemo } from "react";
 import { books } from "../../data/books";
 import BookCards from "../../components/books/cards/BookCards";
+import { useUser } from "../../context/UserContext";
 import "./ExpertReader.css";
 
 export default function ExpertReader() {
-  // Recupera tags da última leitura
-  const tags = JSON.parse(localStorage.getItem("lastReadingTags")) || [];
+  const { readingProgress, favorites } = useUser();
 
-  // Gera recomendações com base nessas tags
+  const preferenceTags = useMemo(() => {
+    const tagSet = new Set();
+
+    // 1) Última leitura salva via BookCards.handleStartReading
+    try {
+      const raw = localStorage.getItem("lastReadingTags");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          parsed
+            .map((t) => String(t || "").toLowerCase())
+            .filter((t) => t)
+            .forEach((t) => tagSet.add(t));
+        }
+      }
+    } catch {
+      // ignora erro de parse
+    }
+
+    // 2) Livros com progresso de leitura
+    const progressIds = Object.keys(readingProgress || {});
+    books
+      .filter((b) => progressIds.includes(String(b.id)))
+      .forEach((b) => {
+        [b.genre, b.author, ...(b.tags || [])]
+          .filter(Boolean)
+          .map((t) => String(t).toLowerCase())
+          .forEach((t) => tagSet.add(t));
+      });
+
+    // 3) Livros favoritados
+    books
+      .filter((b) => (favorites || []).includes(b.id))
+      .forEach((b) => {
+        [b.genre, b.author, ...(b.tags || [])]
+          .filter(Boolean)
+          .map((t) => String(t).toLowerCase())
+          .forEach((t) => tagSet.add(t));
+      });
+
+    return Array.from(tagSet);
+  }, [readingProgress, favorites]);
+
   const recommendedBooks = useMemo(() => {
-    if (!Array.isArray(tags) || tags.length === 0) return [];
+    if (!Array.isArray(preferenceTags) || preferenceTags.length === 0) {
+      return [];
+    }
 
-    const normalizedTags = tags.map((t) => t.toLowerCase());
+    const normalizedTags = preferenceTags.map((t) => t.toLowerCase());
+    const progressIds = new Set(Object.keys(readingProgress || {}));
 
     return books
       .map((b) => {
         const bookTags = [b.genre, b.author, ...(b.tags || [])]
           .filter(Boolean)
-          .map((t) => t.toLowerCase());
+          .map((t) => String(t).toLowerCase());
 
-        // Conta quantas tags coincidem
         const matchCount = bookTags.filter((t) =>
           normalizedTags.includes(t)
         ).length;
 
-        return { ...b, score: matchCount };
+        if (matchCount === 0) {
+          return null;
+        }
+
+        const isInProgress = progressIds.has(String(b.id));
+
+        const baseScore = matchCount * 10 + (b.rating || 0);
+        const score = isInProgress ? baseScore - 5 : baseScore;
+
+        return { ...b, score };
       })
-      .filter((b) => b.score > 0)
+      .filter(Boolean)
       .sort((a, b) => b.score - a.score)
-      .slice(0, 8); // top 8 livros
-  }, [tags]);
+      .slice(0, 8);
+  }, [preferenceTags, readingProgress]);
 
   return (
     <div className="page expert-reader">
@@ -38,7 +91,7 @@ export default function ExpertReader() {
       {recommendedBooks.length > 0 ? (
         <>
           <p className="expert-reader__subtitle subtitle subtitle--sm">
-            Baseado na sua leitura recente
+            Baseado no seu perfil de leitura
           </p>
 
           <div className="expert-reader__grid">
@@ -55,8 +108,8 @@ export default function ExpertReader() {
         </>
       ) : (
         <p className="expert-reader__empty">
-          Nenhuma recomendação disponível.  
-          Inicie uma leitura para receber sugestões!
+          Nenhuma recomendação disponível no momento.
+          Leia ou favorite alguns livros para receber sugestões personalizadas!
         </p>
       )}
     </div>

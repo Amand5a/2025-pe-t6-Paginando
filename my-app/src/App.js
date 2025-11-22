@@ -10,6 +10,7 @@ import Home from "./pages/home/home";
 import BookDetails from "./pages/book/book";
 import AuthorDetails from "./pages/author/author";
 import ExpertReader from "./pages/expert/ExpertReader";
+import Historico from "./pages/historico/historico";
 
 
 function BookReaderPage() {
@@ -33,10 +34,12 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/acervo" element={<Acervo />} />
           <Route path="/favoritos" element={<Favoritos />} />
+          <Route path="/minhas-listas" element={<Favoritos />} />
           <Route path="/livro/:id" element={<BookDetails />} />
           <Route path="/autor/:id" element={<AuthorDetails />} />
           <Route path="/livro/:id/page" element={<BookReaderPage />} />
           <Route path="/expert" element={<ExpertReader />} />
+          <Route path="/historico" element={<Historico />} />
         </Routes>
       </Layout>
     </UserProvider>

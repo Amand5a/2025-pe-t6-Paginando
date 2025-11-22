@@ -2,9 +2,9 @@ import { useMemo } from "react";
 
 /**
  * Hook de recomendações locais baseado no histórico do usuário.
- * @param {Object} overlay - UserOverlayV2 salvo no localStorage (por exemplo, via useUserOverlay).
- * @param {Array} books - Catálogo completo de livros (mock).
- * @param {Object} [currentBook] - Livro atual (opcional, para recomendações contextuais).
+ * @param {Object} overlay - UserOverlayV2 salvo no localStorage 
+ * @param {Array} books - Catálogo completo de livros 
+ * @param {Object} [currentBook] - Livro atual 
  * @returns {Array} Lista de livros recomendados.
  */
 export default function useRecommendations(overlay, books, currentBook = null) {

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useUser } from "../../context/UserContext";
 import { books } from "../../data/books";
 import BookCards from "../../components/books/cards/BookCards";
@@ -11,6 +11,19 @@ export default function Favoritos() {
   const [activeTab, setActiveTab] = useState("favoritos");
 
   const slugify = (s) => String(s || "").toLowerCase().replace(/\s+/g, "-");
+
+  // inicializa aba a partir da query ?tab=...
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get("tab");
+      if (tab) {
+        setActiveTab(tab);
+      }
+    } catch {
+      // ignora se URLSearchParams não estiver disponível
+    }
+  }, []);
   const activeList = useMemo(() => {
     if (activeTab === "favoritos") return null;
     return lists.find((l) => slugify(l.title) === activeTab) || null;

@@ -48,56 +48,6 @@
 .favtool__btn--danger { color: #c0392b; border-color: #f2d7d5; background: #fef4f3; }
 .favtool__btn--danger:hover { background: #fde8e6; }
 
-/* CARD INDIVIDUAL */
-.favoritos__card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 1.25rem;
-  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-  max-width: 20rem;
-  width: 100%;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.favoritos__card:hover {
-  transform: translateY(-0.25rem);
-  box-shadow: 0 0.625rem 1rem rgba(0, 0, 0, 0.1);
-}
-
-/* CAPA */
-.favoritos__cover {
-  background: #f4f7f9;
-  height: 12rem;
-}
-
-/* INFO */
-.favoritos__info {
-  padding: 1rem 1.25rem 1.25rem;
-}
-
-.favoritos__info h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 0.25rem;
-}
-
-.favoritos__info p {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  margin-bottom: 0.75rem;
-}
-
-.favoritos__info span {
-  background: var(--accent-light);
-  color: var(--accent-orange);
-  font-size: 0.8rem;
-  font-weight: 500;
-  border-radius: 1rem;
-  padding: 0.25rem 0.75rem;
-}
-
 /* === RESPONSIVIDADE === */
 
 /* tablets e telas médias */

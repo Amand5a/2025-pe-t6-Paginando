@@ -30,14 +30,6 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-.app {
-  font-family: 'Inter', sans-serif;
-  text-align: center;
-  background-color: #f4f7f9;
-  min-height: 100vh;
-  padding: 40px;
-  color: #1a2b48;
-}
 .page__header {
   text-align: center;
   margin: 3rem auto 2rem;
@@ -49,26 +41,6 @@ body {
 }
 
 /* TÍTULO PRINCIPAL */
-.page__titulo {
-  color: #1A2B48; /* Azul Marinho Escuro */
-  font-family: "Inter", sans-serif;
-  font-weight: 800;
-  font-size: clamp(1.8rem, 4vw, 3rem);
-  line-height: 1.2;
-  margin-bottom: 0.75rem;
-}
-
-/* SUBTÍTULO / DESCRIÇÃO */
-.page__info {
-  color: #7A8291; /* Cinza-Azulado */
-  font-family: "Inter", sans-serif;
-  font-weight: 500;
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  line-height: 1.5;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
 .title {
   color: var(--text-primary);
   font-weight: 700;

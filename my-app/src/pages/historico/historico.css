@@ -1,0 +1,28 @@
+.historico {
+  margin-top: 2rem;
+}
+
+.historico__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.25rem;
+  justify-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+}
+
+.historico__empty {
+  text-align: center;
+  color: #94a3b8;
+  font-size: var(--fs-sm);
+  margin-top: 1rem;
+}
+
+@media (max-width: 600px) {
+  .historico__grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
