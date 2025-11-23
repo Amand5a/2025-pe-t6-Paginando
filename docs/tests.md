@@ -93,9 +93,9 @@ A seguir são descritos os principais Casos de Teste (CT) que verificam os Requi
 
 ---
 
-### CT05 – Ler livros disponíveis (PDF / leitor embutido)
+### CT05 – Ler livros disponíveis (epub / leitor embutido)
 
-**Caso de Teste** | **CT05 - Leitura de livro em PDF**
+**Caso de Teste** | **CT05 - Leitura de livro em epub**
 :--------------: | ------------
 **Requisito associado** | RF-005
 **Procedimento** | 1) Acessar o catálogo de livros. <br> 2) Clicar em **“Ler online”**, **“Abrir PDF”** ou botão equivalente. <br> 3) Navegar por algumas páginas do leitor (próximo/anterior, scroll). 4) Alterar Configurações de leitura 5) Atualizar a página. 6) Verificar informações salvas.
@@ -147,17 +147,40 @@ Esta seção apresenta o relatório com as evidências dos testes de software re
 
 > Abaixo um modelo para ser repetido para todos os CTs.
 
-| *Caso de Teste* | *CT01 - Buscar livros por título* |
+| *Caso de Teste* | *CT01 - Acessar Home e Acervo |
 |-----------------|-----------------------------------|
-| Requisito Associado | RF-001, RF-004 |
-| Link do vídeo do teste realizado | _Inserir link (OneDrive, YouTube não listado, etc.)_ |
+| Requisito Associado | RF-001 |
+| Link do vídeo do teste realizado | https://youtu.be/Qs2sg9l9DhQ |
 
-| *Caso de Teste* | *CT03 - Verificar disponibilidade e leitura online* |
+| *Caso de Teste* | *CT02 - Buscar livros por parâmetros |
+|-----------------|-----------------------------------|
+| Requisito Associado | RF-002 |
+| Link do vídeo do teste realizado | https://youtu.be/uQbnWSCRoy0 |
+
+| *Caso de Teste* | CT03 – Visualizar informações detalhadas do livro |
 |-----------------|------------------------------------------------------|
-| Requisito Associado | RF-002, RF-005 |
-| Link do vídeo do teste realizado | _Inserir link_ |
+| Requisito Associado | RF-003 |
+| Link do vídeo do teste realizado | https://youtu.be/1Zfdn8DDhvQ |
 
-(O grupo deve criar uma tabela semelhante para CT02, CT04, ..., CT13.)
+| *Caso de Teste* | CT04 – Navegação simples e clara entre as principais seções |
+|-----------------|------------------------------------------------------|
+| Requisito Associado | RF-004 |
+| Link do vídeo do teste realizado | https://youtu.be/uQbnWSCRoy0 |
+
+| *Caso de Teste* | CT05 – Ler livros disponíveis (PDF / leitor embutido) |
+|-----------------|------------------------------------------------------|
+| Requisito Associado | RF-005 |
+| Link do vídeo do teste realizado | https://youtu.be/_cGEaVDtgIg |
+
+| *Caso de Teste* | CT06 - Favoritos e listas personalizadas |
+|-----------------|------------------------------------------------------|
+| Requisito Associado | RF-006 |
+| Link do vídeo do teste realizado | https://youtu.be/8saFgZKy1Pw |
+
+| *Caso de Teste* | CT07 – Lembrar histórico de acesso, configurações e leituras recentes |
+|-----------------|------------------------------------------------------|
+| Requisito Associado | RF-007 |
+| Link do vídeo do teste realizado | https://youtu.be/bvY2HpCmU2g |
 
 ---
 
@@ -275,6 +298,31 @@ Taxa de Sucesso e Satisfação referente aos cenários descritos. As taxas apres
 
 ---
 
+## Testes de Usabilidade com Convidado
+
+Foram convidada uma pessoas que os perfil se encaixassem nas definições das histórias apresentadas na documentação, visando averiguar os seguintes indicadores:
+
+Taxa de sucesso: responde se o usuário conseguiu ou não executar a tarefa proposta;
+
+Satisfação subjetiva: responde como o usuário avalia o sistema com relação à execução da tarefa proposta, conforme a seguinte escala:
+
+1. Péssimo; 
+2. Ruim; 
+3. Regular; 
+4. Bom; 
+5. Ótimo.
+
+**Resultado:** 
+
+| Teste | Taxa de sucesso | Satisfação subjetiva |
+|---------|-----------------|----------------------|
+| 1  | 5| Ótimo |
+| 2 | 5| Ótimo |
+| 3 | 5| Ótimo |
+| 4 | 3| Regular |
+| 5 | 5| Ótimo|
+| 6 | 5| Ótimo|
+| 7 | 5| Ótimo |
 
 ## Avaliação dos Testes de Usabilidade
 
