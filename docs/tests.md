@@ -244,8 +244,6 @@ Serão avaliados os seguintes indicadores:
 
 ## Cenários de Teste de Usabilidade
 
-## Cenários de Teste de Usabilidade
-
 | Nº do Cenário | Descrição do cenário |
 |---------------|----------------------|
 | 1 | Você é um leitor que acabou de acessar a Biblioteca Online e quer ter uma visão geral do sistema. Você deseja ver o histórico de leitura, receber indicações de leitura, conhecer os livros mais lidos e acessar o acervo completo para explorar novas obras.  |
