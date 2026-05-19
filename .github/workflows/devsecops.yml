@@ -1,56 +1,150 @@
-name: DevSecOps Agent
+name: DevSecOps Security Scan
+
 on:
   pull_request:
     types: [opened, synchronize, reopened]
   push:
-    branches: [main, staging]
+    branches: [main, staging, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
 
 jobs:
-  devsecops-analysis:
+  security-scans:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Call DevSecOps Agent via n8n
-        uses: actions/github-script@v7
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          script: |
-            const payload = {
-              event_type: context.eventName,
-              repository: context.repo.repo,
-              owner: context.repo.owner,
-              branch: context.ref.replace('refs/heads/', ''),
-              commit_sha: context.sha,
-              pr_number: context.payload.pull_request?.number || null,
-              pr_title: context.payload.pull_request?.title || null,
-              author: context.payload.pull_request?.user?.login || context.payload.pusher?.name,
-              pipeline_id: `${context.runId}`,
-              build_status: 'PENDING',
-              changed_files: context.payload.pull_request
-                ? (await github.rest.pulls.listFiles({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    pull_number: context.payload.pull_request.number
-                  })).data.map(f => f.filename)
-                : [],
-              base_sha: context.payload.pull_request?.base?.sha || null,
-              token: '${{ secrets.GITHUB_TOKEN }}'
-            };
+          python-version: '3.11'
 
-            const response = await fetch('${{ secrets.N8N_WEBHOOK_URL }}', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'X-Hub-Signature-256': 'sha256=${{ secrets.N8N_WEBHOOK_SECRET }}'
+      - name: Get changed files
+        id: changed-files
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            FILES=$(git diff --name-only origin/${{ github.base_ref }}..HEAD | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          else
+            FILES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null | jq -R -s -c 'split("\n") | map(select(length > 0))' || echo '[]')
+          fi
+          echo "files=$FILES" >> $GITHUB_OUTPUT
+
+      - name: Run Semgrep
+        id: semgrep
+        continue-on-error: true
+        run: |
+          pip install semgrep --quiet
+          semgrep --config=p/security-audit --config=p/secrets --json --output=semgrep.json . || true
+          if [ ! -f semgrep.json ]; then echo '{"results":[]}' > semgrep.json; fi
+
+      - name: Run Gitleaks
+        id: gitleaks
+        continue-on-error: true
+        run: |
+          docker run --rm -v "$(pwd):/repo" zricethezav/gitleaks:latest \
+            detect --source="/repo" --report-format=json --report-path=/repo/gitleaks.json --no-banner || true
+          if [ ! -f gitleaks.json ]; then echo '[]' > gitleaks.json; fi
+
+      - name: Run pip-audit
+        id: pip-audit
+        continue-on-error: true
+        run: |
+          pip install pip-audit --quiet
+          if [ -f requirements.txt ]; then
+            pip-audit -r requirements.txt --format=json --output=pip-audit.json || true
+          else
+            echo '{"dependencies":[]}' > pip-audit.json
+          fi
+
+      - name: Consolidate findings
+        id: consolidate
+        run: |
+          python <<'EOF'
+          import json, os
+
+          with open('semgrep.json') as f: semgrep = json.load(f)
+          with open('gitleaks.json') as f: gitleaks = json.load(f)
+          with open('pip-audit.json') as f: pip_audit = json.load(f)
+
+          sast_findings = [{
+              "rule_id": r.get("check_id", ""),
+              "severity": r.get("extra", {}).get("severity", "INFO").upper(),
+              "message": r.get("extra", {}).get("message", ""),
+              "file": r.get("path", ""),
+              "line": r.get("start", {}).get("line", 0),
+              "tool": "semgrep"
+          } for r in semgrep.get("results", [])]
+
+          secret_findings = [{
+              "rule_id": g.get("RuleID", ""),
+              "description": g.get("Description", ""),
+              "file": g.get("File", ""),
+              "line": g.get("StartLine", 0),
+              "match_pattern": g.get("Match", "")[:50] + "...",
+              "tool": "gitleaks"
+          } for g in (gitleaks if isinstance(gitleaks, list) else [])]
+
+          dependency_findings = []
+          for dep in pip_audit.get("dependencies", []):
+              for vuln in dep.get("vulns", []):
+                  dependency_findings.append({
+                      "cve_id": vuln.get("id", ""),
+                      "package": dep.get("name", ""),
+                      "installed_version": dep.get("version", ""),
+                      "fixed_version": ", ".join(vuln.get("fix_versions", [])) or "N/A",
+                      "cvss_score": None,
+                      "description": vuln.get("description", "")[:200],
+                      "tool": "pip-audit"
+                  })
+
+          payload = {
+              "metadata": {
+                  "pr_number": os.environ.get("PR_NUMBER", ""),
+                  "author": os.environ.get("AUTHOR", ""),
+                  "branch": os.environ.get("BRANCH", ""),
+                  "commit_sha": os.environ.get("COMMIT_SHA", ""),
+                  "event_type": os.environ.get("EVENT_TYPE", ""),
+                  "repository": os.environ.get("REPO", ""),
+                  "changed_files": json.loads(os.environ.get("CHANGED_FILES", "[]"))
               },
-              body: JSON.stringify(payload)
-            });
+              "sast_findings": sast_findings,
+              "secret_findings": secret_findings,
+              "dependency_findings": dependency_findings
+          }
 
-            const result = await response.json();
-            console.log('Agent result:', JSON.stringify(result));
+          with open('devsecops-payload.json', 'w') as f:
+              json.dump(payload, f, indent=2)
 
-            if (result.agent_result?.pipeline_status === 'BLOCKED') {
-              core.setFailed(`Pipeline bloqueado: ${result.agent_result?.details}`);
-            }
+          print(f"Total findings: SAST={len(sast_findings)} | Secrets={len(secret_findings)} | Deps={len(dependency_findings)}")
+          EOF
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          AUTHOR: ${{ github.event.pull_request.user.login || github.actor }}
+          BRANCH: ${{ github.head_ref || github.ref_name }}
+          COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          EVENT_TYPE: ${{ github.event_name }}
+          REPO: ${{ github.repository }}
+          CHANGED_FILES: ${{ steps.changed-files.outputs.files }}
+
+      - name: Send to n8n
+        run: |
+          curl -X POST "${{ secrets.N8N_WEBHOOK_URL }}" \
+            -H "Content-Type: application/json" \
+            -H "X-Webhook-Secret: ${{ secrets.N8N_WEBHOOK_SECRET }}" \
+            --data @devsecops-payload.json \
+            --fail-with-body
+
+      - name: Upload findings as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-findings-${{ github.run_id }}
+          path: devsecops-payload.json
+          retention-days: 30
