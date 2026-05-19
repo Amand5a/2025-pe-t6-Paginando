@@ -1,5 +1,5 @@
 """
-Vulnerable Flask app — POC DevSecOps Agent
+
 WARNING: Este arquivo contém vulnerabilidades PROPOSITAIS para testes.
 NÃO USAR EM PRODUÇÃO.
 """
