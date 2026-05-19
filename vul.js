@@ -1,44 +1,64 @@
-from flask import Flask, request, jsonify
-import sqlite3
+const express = require('express');
+const mysql = require('mysql');
+const { exec } = require('child_process');
+const crypto = require('crypto');
 
-app = Flask(__name__)
+const app = express();
 
+// Hardcoded secrets — Gitleaks vai pegar
+const AWS_ACCESS_KEY_ID = "AKIAIOSFODNN7EXAMPLE";
+const AWS_SECRET_ACCESS_KEY = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY";
+const DATABASE_PASSWORD = "admin123";
+const JWT_SECRET = "supersecret-do-not-use-in-prod";
 
-@app.route("/users/login", methods=["POST"])
-def login():
-    """
-    VULNERÁVEL — SQL Injection (CWE-89)
-    """
-    username = request.form.get("username")
-    password = request.form.get("password")
-    
-    conn = sqlite3.connect("users.db")
-    cursor = conn.cursor()
-    
-    # Query construída com concatenação — Semgrep vai detectar
-    query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'"
-    cursor.execute(query)
-    
-    result = cursor.fetchone()
-    conn.close()
-    
-    if result:
-        return jsonify({"status": "ok", "user_id": result[0]})
-    return jsonify({"status": "fail"}), 401
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: DATABASE_PASSWORD,
+  database: 'app'
+});
 
+// SQL Injection — Semgrep vai pegar
+app.get('/login', (req, res) => {
+  const user = req.query.user;
+  const query = "SELECT * FROM users WHERE name = '" + user + "'";
+  db.query(query, (err, results) => {
+    res.json(results);
+  });
+});
 
-@app.route("/users/<user_id>/profile")
-def get_profile(user_id):
-    """
-    VULNERÁVEL — SQL Injection (CWE-89)
-    """
-    conn = sqlite3.connect("users.db")
-    cursor = conn.cursor()
-    
-    query = f"SELECT * FROM profiles WHERE user_id = {user_id}"
-    cursor.execute(query)
-    
-    result = cursor.fetchone()
-    conn.close()
-    
-    return jsonify(dict(zip(["id", "name", "email"], result)) if result else {})
+// Command Injection — Semgrep vai pegar
+app.get('/ping', (req, res) => {
+  const host = req.query.host;
+  exec('ping -c 1 ' + host, (err, stdout) => {
+    res.send(stdout);
+  });
+});
+
+// Insecure Deserialization (eval) — Semgrep vai pegar
+app.get('/run', (req, res) => {
+  const code = req.query.code;
+  const result = eval(code);
+  res.json({ result });
+});
+
+// Weak crypto (MD5) — Semgrep vai pegar
+function hashPassword(pwd) {
+  return crypto.createHash('md5').update(pwd).digest('hex');
+}
+
+// XSS — Semgrep vai pegar
+app.get('/welcome', (req, res) => {
+  const name = req.query.name;
+  res.send('<h1>Welcome ' + name + '</h1>');
+});
+
+// Path Traversal — Semgrep vai pegar
+const fs = require('fs');
+app.get('/file', (req, res) => {
+  const filename = req.query.f;
+  const content = fs.readFileSync('./uploads/' + filename, 'utf8');
+  res.send(content);
+});
+
+app.listen(3000);
