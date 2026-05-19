@@ -16,7 +16,7 @@ jobs:
       - name: Call DevSecOps Agent
         id: agent
         run: |
-          RESPONSE=$(curl -s -X POST "https://SEU-WEBHOOK-N8N" \
+          RESPONSE=$(curl -s -X POST "https://amand182a.app.n8n.cloud/webhook-test/devsecops-agent" \
             -H "Content-Type: application/json" \
             -d '{
               "repository": "${{ github.repository }}",
