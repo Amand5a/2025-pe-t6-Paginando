@@ -1,0 +1,56 @@
+name: DevSecOps Agent
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main, staging]
+
+jobs:
+  devsecops-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Call DevSecOps Agent via n8n
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const payload = {
+              event_type: context.eventName,
+              repository: context.repo.repo,
+              owner: context.repo.owner,
+              branch: context.ref.replace('refs/heads/', ''),
+              commit_sha: context.sha,
+              pr_number: context.payload.pull_request?.number || null,
+              pr_title: context.payload.pull_request?.title || null,
+              author: context.payload.pull_request?.user?.login || context.payload.pusher?.name,
+              pipeline_id: `${context.runId}`,
+              build_status: 'PENDING',
+              changed_files: context.payload.pull_request
+                ? (await github.rest.pulls.listFiles({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    pull_number: context.payload.pull_request.number
+                  })).data.map(f => f.filename)
+                : [],
+              base_sha: context.payload.pull_request?.base?.sha || null,
+              token: '${{ secrets.GITHUB_TOKEN }}'
+            };
+
+            const response = await fetch('${{ secrets.N8N_WEBHOOK_URL }}', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Hub-Signature-256': 'sha256=${{ secrets.N8N_WEBHOOK_SECRET }}'
+              },
+              body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+            console.log('Agent result:', JSON.stringify(result));
+
+            if (result.agent_result?.pipeline_status === 'BLOCKED') {
+              core.setFailed(`Pipeline bloqueado: ${result.agent_result?.details}`);
+            }
