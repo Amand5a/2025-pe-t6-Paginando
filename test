@@ -1,0 +1,41 @@
+app:
+  name: vulnerable-demo-app
+  environment: production
+  debug: true
+
+server:
+  host: 0.0.0.0
+  port: 8080
+  cors:
+    enabled: true
+    allowed_origins:
+      - "*"
+
+database:
+  engine: postgres
+  host: db.internal.local
+  port: 5432
+  name: app_prod
+  username: admin
+  password: admin123
+
+auth:
+  jwt_secret: "supersecret"
+  token_expiration_minutes: 10080
+  mfa_required: false
+
+security:
+  force_https: false
+  rate_limit_enabled: false
+  input_validation: false
+  dependency_scan: false
+  secret_scan: false
+
+logging:
+  level: debug
+  log_sensitive_data: true
+
+deploy:
+  run_as_root: true
+  auto_approve_changes: true
+  rollback_enabled: false
