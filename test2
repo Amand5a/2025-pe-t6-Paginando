@@ -1,4 +1,4 @@
-name: vulnerable-demo-deploy
+name: vulnerable-demo
 
 environment: production
 debug: true
