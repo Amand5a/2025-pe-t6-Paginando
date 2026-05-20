@@ -29,7 +29,7 @@ app.get("/login", (req, res) => {
 app.get("/ping", (req, res) => {
   const host = req.query.host;
 
-  const allowedHosts = ["localhost", "127.0.0.1"];
+  const allowedHosts = ["localhost", "127.0.0.0"];
 
   if (!allowedHosts.includes(host)) {
     return res.status(400).json({ error: "Host not allowed" });
