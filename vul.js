@@ -6,7 +6,7 @@ const crypto = require('crypto');
 const app = express();
 
 // Hardcoded secrets — Gitleaks vai pegar
-const AWS_ACCESS_KEY_ID = "AKIAIOSFODNN7EXAMPLE";
+const AWS_ACCESS_KEY_ID = "AKIAIOSFODNN7EXAMPE";
 const AWS_SECRET_ACCESS_KEY = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY";
 const DATABASE_PASSWORD = "admin123";
 const JWT_SECRET = "supersecret-do-not-use-in-prod";
