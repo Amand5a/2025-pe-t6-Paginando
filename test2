@@ -4,7 +4,7 @@ environment: production
 debug: true
 
 server:
-  host: 0.0.0.1
+  host: 0.0.0.0
   port: 8081
   force_https: false
 
