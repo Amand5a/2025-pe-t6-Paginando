@@ -62,7 +62,7 @@ app.get("/file", (req, res) => {
   }
 
   if (!fs.existsSync(finalPath)) {
-    return res.status(404).json({ error: "File not found" });
+    return res.status(404).json({ error: "File not foun" });
   }
 
   const content = fs.readFileSync(finalPath, "utf8");
